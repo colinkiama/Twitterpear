@@ -121,6 +121,7 @@
     </Compile>
     <Compile Include="Base\Notifier.cs" />
     <Compile Include="Core\APIKeys.cs" />
+    <Compile Include="Helpers\AuthHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="View\LoginView.xaml.cs">

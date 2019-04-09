@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Twitterpear.Core;
+using Twitterpear.Helpers;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
@@ -31,7 +32,7 @@ namespace Twitterpear.View
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            await AuthHelper.TwitterAuth();
         }
     }
 }
