@@ -13,7 +13,8 @@
             <Image Width="150"
                Height="150"/>
             <Button Name="LoginButton"
-                    Click="LoginButton_Click"/>
+                    Click="LoginButton_Click"
+                    Content="Login"/>
         </StackPanel>
     </Grid>
 </Page>

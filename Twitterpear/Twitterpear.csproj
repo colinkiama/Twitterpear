@@ -137,6 +137,7 @@
     <None Include="Twitterpear_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\TwitterLogo.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -153,11 +154,11 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CoreTweet">
-      <Version>1.0.0.483</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.8</Version>
+    </PackageReference>
+    <PackageReference Include="TweetinviAPI">
+      <Version>4.0.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
