@@ -55,8 +55,9 @@
                 <StackPanel Name="TweetStatusStackPanel"
                             Margin="0,20,0,0">
                     <TextBlock Name="StatusTextBlock" Style="{StaticResource StatusHeaderStyle}"
-                               Text="Tweet Sent"/>
-                    <TextBlock Name="StatusDetailsTextBlock"/>
+                               Text="Your tweet is now on Twitter!"/>
+                    <TextBlock Name="StatusDetailsTextBlock"
+                               Text="Link to tweet: (Tweet Link)"/>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
