@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Twitterpear.Helpers;
 using Twitterpear.View;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -84,6 +85,7 @@ namespace Twitterpear
                 // TODO: Handle URI activation
                 // The received URI is eventArgs.Uri.AbsoluteUri
                 Debug.WriteLine(eventArgs.Uri.AbsoluteUri);
+                AuthHelper.ValidateTwitterAuth(eventArgs.Uri);
             }
         }
 

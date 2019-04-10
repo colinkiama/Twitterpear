@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,6 +65,7 @@ namespace Twitterpear.Helpers
         private static void SaveTokenSetting(TokenValueType tokenValueType, string tokenValue)
         {
             localSettings.Values[nameof(tokenValueType)] = tokenValue;
+            Debug.WriteLine("Token Stored!");
         }
     }
 }

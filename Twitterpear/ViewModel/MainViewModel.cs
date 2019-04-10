@@ -3,23 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tweetinvi.Models;
 using Twitterpear.Base;
 
 namespace Twitterpear.ViewModel
 {
     class MainViewModel : Notifier
     {
-        private int myVar;
+        private IAuthenticatedUser _user;
 
-        public int MyProperty
+        public IAuthenticatedUser User
         {
-            get { return myVar; }
-            set { myVar = value; }
+            get { return _user; }
+            set
+            {
+                _user = value;
+                NotifyPropertyChanged();
+            }
         }
 
-        internal void LoadUser()
+        internal void LoadUser(Tweetinvi.Models.IAuthenticatedUser user)
         {
-            
+            User = user;
         }
     }
 }
