@@ -28,6 +28,12 @@ namespace Twitterpear.View
         public LoginView()
         {
             this.InitializeComponent();
+            AuthHelper.UserLoggedIn += AuthHelper_UserLoggedIn;
+        }
+
+        private void AuthHelper_UserLoggedIn(object sender, Tweetinvi.Models.IAuthenticatedUser e)
+        {
+            Frame.Navigate(typeof(MainView), e);
         }
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)

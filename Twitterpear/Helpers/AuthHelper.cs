@@ -6,13 +6,21 @@ using System.Threading.Tasks;
 using Tweetinvi;
 using Tweetinvi.Models;
 using Twitterpear.Core;
+using Twitterpear.Enums;
+using Windows.Foundation;
+using Windows.Storage;
 using Windows.System;
 
 namespace Twitterpear.Helpers
 {
+    // Keeping this static because authentication info will be needed across 
+    //the whole lifetime of the app.
     internal static class AuthHelper
     {
+        
         private static IAuthenticationContext _authenticationContext;
+        public static event EventHandler<IAuthenticatedUser> UserLoggedIn;
+        static ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
         // Step 1 : Redirect user to go on Twitter.com to authenticate
         internal async static Task TwitterAuth()
@@ -25,6 +33,37 @@ namespace Twitterpear.Helpers
             var authURI = new Uri(_authenticationContext.AuthorizationURL);
             // The browser is with the URI!
             await Launcher.LaunchUriAsync(authURI);
+        }
+
+        internal static void ValidateTwitterAuth(Uri calledbackUri)
+        {
+            const string verifierQueryName = "oauth_verifier";
+
+            // Get verifier code from the URI
+            WwwFormUrlDecoder urlDecoder = new WwwFormUrlDecoder(calledbackUri.AbsoluteUri);
+            string verifierCode = urlDecoder.GetFirstValueByName(verifierQueryName);
+
+            // Create the user credentials
+            var userCreds = AuthFlow.CreateCredentialsFromVerifierCode(verifierCode, _authenticationContext);
+            var user = Tweetinvi.User.GetAuthenticatedUser(userCreds);
+
+            // Return User through UserLoggedIn event
+            UserLoggedIn?.Invoke(null, user);
+
+            StoreToken();
+        }
+
+        private static void StoreToken()
+        {
+            var token = _authenticationContext.Token;
+            SaveTokenSetting(TokenValueType.AuthorizationKey, token.AuthorizationKey);
+            SaveTokenSetting(TokenValueType.AuthorizationSecret, token.AuthorizationSecret);
+            SaveTokenSetting(TokenValueType.ConsumerCredentials, token.ConsumerCredentials.ToJson());
+        }
+
+        private static void SaveTokenSetting(TokenValueType tokenValueType, string tokenValue)
+        {
+            localSettings.Values[nameof(tokenValueType)] = tokenValue;
         }
     }
 }

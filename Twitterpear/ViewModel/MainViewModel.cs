@@ -7,8 +7,19 @@ using Twitterpear.Base;
 
 namespace Twitterpear.ViewModel
 {
-    class MainViewModel:Notifier
+    class MainViewModel : Notifier
     {
+        private int myVar;
 
+        public int MyProperty
+        {
+            get { return myVar; }
+            set { myVar = value; }
+        }
+
+        internal void LoadUser()
+        {
+            
+        }
     }
 }
