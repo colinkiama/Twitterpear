@@ -34,5 +34,11 @@ namespace Twitterpear.View
             var user = e.Parameter as IAuthenticatedUser;
             ViewModel.LoadUser(user);
         }
+
+        private void TweetTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            TweetButton.IsEnabled = !string.IsNullOrEmpty(textBox.Text);
+        }
     }
 }

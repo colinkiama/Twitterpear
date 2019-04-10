@@ -120,6 +120,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Base\Notifier.cs" />
+    <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Core\APIKeys.cs" />
     <Compile Include="Enums\TokenValueType.cs" />
     <Compile Include="Helpers\AuthHelper.cs" />

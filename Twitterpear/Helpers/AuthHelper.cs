@@ -48,6 +48,9 @@ namespace Twitterpear.Helpers
             var userCreds = AuthFlow.CreateCredentialsFromVerifierCode(verifierCode, _authenticationContext);
             var user = Tweetinvi.User.GetAuthenticatedUser(userCreds);
 
+            // Gives class credentials to use in future operations
+            Auth.SetUserCredentials(userCreds.ConsumerKey, userCreds.ConsumerSecret, userCreds.AccessToken, userCreds.AccessTokenSecret);
+
             // Return User through UserLoggedIn event
             UserLoggedIn?.Invoke(null, user);
 
@@ -66,6 +69,29 @@ namespace Twitterpear.Helpers
         {
             localSettings.Values[nameof(tokenValueType)] = tokenValue;
             Debug.WriteLine("Token Stored!");
+        }
+
+        internal static bool TryRestoreToken()
+        {
+            bool isAuthenticated;
+            string authKey = LoadTokenSetting(TokenValueType.AuthorizationKey);
+            if (authKey == string.Empty)
+            {
+                return false;
+            }
+            
+            return true;
+        }
+
+        private static string LoadTokenSetting(TokenValueType tokenValueType)
+        {
+            string valueToReturn = "";
+            string tokenValueTypeString = nameof(tokenValueType);
+            if (localSettings.Values[tokenValueTypeString] != null)
+            {
+                valueToReturn = (string)localSettings.Values[tokenValueTypeString];
+            }
+            return valueToReturn;
         }
     }
 }

@@ -46,12 +46,15 @@
                          PlaceholderText="Start writing here..."
                          TextWrapping="Wrap"
                          AcceptsReturn="True"
-                             Margin="0,20,0,0"/>
-                
+                             Margin="0,20,0,0"
+                         Text="{x:Bind ViewModel.TweetContent, Mode=TwoWay}"
+                         TextChanged="TweetTextBox_TextChanged"/>
+                            
                 <Button Name="TweetButton" Style="{ThemeResource AccentButtonStyle}"
                         Width="150"
                         Height="40"
-                        Margin="0,12,0,0">
+                        Margin="0,12,0,0"
+                        Command="{x:Bind ViewModel.TweetCommand}">
                     <Button.Content>
                         <TextBlock Text="Tweet"/>
                     </Button.Content>
