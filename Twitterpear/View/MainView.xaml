@@ -60,11 +60,13 @@
                     </Button.Content>
                 </Button>
                 <StackPanel Name="TweetStatusStackPanel"
-                            Margin="0,20,0,0">
+                            Margin="0,20,0,0"
+                            Visibility="{x:Bind ViewModel.TweetPublishAttempted, Mode=OneWay}">
                     <TextBlock Name="StatusTextBlock" Style="{StaticResource StatusHeaderStyle}"
                                Text="Your tweet is now on Twitter!"/>
-                    <TextBlock Name="StatusDetailsTextBlock"
-                               Text="Link to tweet: (Tweet Link)"/>
+                    <HyperlinkButton Name="StatusDetailsTextBlock"
+                               Content="{x:Bind ViewModel.PublishedTweetURL, Mode=OneWay}"
+                                     NavigateUri="{Binding ElementName=StatusDetailsTextBlock, Path=Content}"/>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

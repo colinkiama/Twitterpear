@@ -29,29 +29,60 @@ namespace Twitterpear.ViewModel
         public string TweetContent
         {
             get { return _tweetContent; }
-            set {
+            set
+            {
                 _tweetContent = value;
                 NotifyPropertyChanged();
             }
         }
+
+        private string _publishedTweetURL;
+
+        public string PublishedTweetURL
+        {
+            get { return _publishedTweetURL; }
+            set
+            {
+                _publishedTweetURL = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool _tweetPublishAttempted;
+
+        public bool TweetPublishAttempted
+        {
+            get { return _tweetPublishAttempted; }
+            set
+            {
+                _tweetPublishAttempted = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
 
 
         public RelayCommand TweetCommand;
 
         public MainViewModel()
         {
-            TweetCommand = new RelayCommand(() => CreateTweet());
+            TweetCommand = new RelayCommand(async () => await CreateTweetAsync().AsAsyncAction());
         }
 
         internal void LoadUser(Tweetinvi.Models.IAuthenticatedUser user)
         {
             User = user;
-            
         }
 
-        private void CreateTweet()
+        private async Task CreateTweetAsync()
         {
-            Tweet.PublishTweet(_tweetContent);
+            var publishedTweetDetails = await TweetAsync.PublishTweet(_tweetContent);
+            TweetPublishAttempted = true;
+            if (publishedTweetDetails.IsTweetPublished)
+            {
+                PublishedTweetURL = publishedTweetDetails.Url;
+            }
         }
     }
 }
