@@ -38,7 +38,8 @@
             </Ellipse>
         </Grid>
 
-        <ScrollViewer Grid.Row="1">
+        <ScrollViewer Grid.Row="1"
+                      Margin="0,0,-40,0">
             <StackPanel
                 HorizontalAlignment="Left">
                 <TextBox Name="TweetTextBox" Width="300"
