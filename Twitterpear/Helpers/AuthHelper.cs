@@ -54,15 +54,17 @@ namespace Twitterpear.Helpers
             // Return User through UserLoggedIn event
             UserLoggedIn?.Invoke(null, user);
 
-            StoreToken();
+            StoreToken(userCreds);
         }
 
-        private static void StoreToken()
+        private static void StoreToken(ITwitterCredentials userCreds)
         {
+            // Save Token details so app can automatically login to user.
             var token = _authenticationContext.Token;
             SaveTokenSetting(TokenValueType.AuthorizationKey, token.AuthorizationKey);
             SaveTokenSetting(TokenValueType.AuthorizationSecret, token.AuthorizationSecret);
-            SaveTokenSetting(TokenValueType.ConsumerCredentials, token.ConsumerCredentials.ToJson());
+            SaveTokenSetting(TokenValueType.AccessToken, userCreds.AccessToken);
+            SaveTokenSetting(TokenValueType.AccessTokenSecret, userCreds.AccessTokenSecret);
         }
 
         private static void SaveTokenSetting(TokenValueType tokenValueType, string tokenValue)
@@ -73,12 +75,16 @@ namespace Twitterpear.Helpers
 
         internal static bool TryRestoreToken()
         {
-            bool isAuthenticated;
             string authKey = LoadTokenSetting(TokenValueType.AuthorizationKey);
             if (authKey == string.Empty)
             {
                 return false;
             }
+            string authSecret = LoadTokenSetting(TokenValueType.AuthorizationSecret);
+            string token = LoadTokenSetting(TokenValueType.AccessToken);
+            string tokenSecret = LoadTokenSetting(TokenValueType.AccessTokenSecret);
+
+            Auth.SetUserCredentials(authKey, authSecret, token, tokenSecret);
             
             return true;
         }
