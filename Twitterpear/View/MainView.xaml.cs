@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Tweetinvi.Models;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -28,11 +27,10 @@ namespace Twitterpear.View
             this.InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            var user = e.Parameter as IAuthenticatedUser;
-            ViewModel.LoadUser(user);
+            await ViewModel.LoadUser();
         }
 
         private void TweetTextBox_TextChanged(object sender, TextChangedEventArgs e)

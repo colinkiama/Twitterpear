@@ -33,7 +33,7 @@
                      Height="40"
                      Grid.Column="1">
                 <Ellipse.Fill>
-                    <ImageBrush ImageSource="{x:Bind ViewModel.User.ProfileImageUrl400x400, Mode=OneWay}"/>
+                    <ImageBrush ImageSource="{x:Bind ViewModel.User.ProfileImageUrl, Mode=OneWay}"/>
                 </Ellipse.Fill>
             </Ellipse>
         </Grid>

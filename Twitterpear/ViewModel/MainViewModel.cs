@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Services.Twitter;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tweetinvi;
-using Tweetinvi.Models;
 using Twitterpear.Base;
 using Twitterpear.Commands;
 
@@ -12,9 +11,10 @@ namespace Twitterpear.ViewModel
 {
     class MainViewModel : Notifier
     {
-        private IAuthenticatedUser _user;
+        private const string TwitterUrlString = "https://www.twitter.com/";
+        private TwitterUser _user;
 
-        public IAuthenticatedUser User
+        public TwitterUser User
         {
             get { return _user; }
             set
@@ -48,6 +48,11 @@ namespace Twitterpear.ViewModel
             }
         }
 
+        internal async Task LoadUser()
+        {
+            User = await TwitterService.Instance.GetUserAsync();
+        }
+
         private bool _tweetPublishAttempted;
 
         public bool TweetPublishAttempted
@@ -70,19 +75,17 @@ namespace Twitterpear.ViewModel
             TweetCommand = new RelayCommand(async () => await CreateTweetAsync().AsAsyncAction());
         }
 
-        internal void LoadUser(Tweetinvi.Models.IAuthenticatedUser user)
-        {
-            User = user;
-        }
+        
 
         private async Task CreateTweetAsync()
         {
-            var publishedTweetDetails = await TweetAsync.PublishTweet(_tweetContent);
-            TweetPublishAttempted = true;
-            if (publishedTweetDetails.IsTweetPublished)
+            bool wasTweetPublished = await TwitterService.Instance.TweetStatusAsync(_tweetContent);
+            if (wasTweetPublished)
             {
-                PublishedTweetURL = publishedTweetDetails.Url;
+                TweetPublishAttempted = true;
+                PublishedTweetURL = $"{TwitterUrlString}{User.ScreenName}";
             }
+           
         }
     }
 }

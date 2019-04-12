@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Services.Twitter;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Twitterpear.Core;
-using Twitterpear.Helpers;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
@@ -28,17 +28,22 @@ namespace Twitterpear.View
         public LoginView()
         {
             this.InitializeComponent();
-            AuthHelper.UserLoggedIn += AuthHelper_UserLoggedIn;
+           
         }
 
-        private void AuthHelper_UserLoggedIn(object sender, Tweetinvi.Models.IAuthenticatedUser e)
-        {
-            Frame.Navigate(typeof(MainView), e);
-        }
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            await AuthHelper.TwitterAuth();
+            TwitterService.Instance.Initialize(APIKeys.APIKey, APIKeys.SecretKey, "twitterpear://");
+            // Login to Twitter
+            if (!await TwitterService.Instance.LoginAsync())
+            {
+                return;
+            }
+            else
+            {
+                Frame.Navigate(typeof(MainView));
+            }
         }
     }
 }
