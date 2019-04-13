@@ -47,6 +47,10 @@ namespace Twitterpear
             StartupApp();
             Frame rootFrame = Window.Current.Content as Frame;
 
+            if (e.PrelaunchActivated == false)
+            {
+                TryEnablePrelaunch();
+            }
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (rootFrame == null)
@@ -83,6 +87,11 @@ namespace Twitterpear
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
+        }
+
+        private void TryEnablePrelaunch()
+        {
+            Windows.ApplicationModel.Core.CoreApplication.EnablePrelaunch(true);
         }
 
         private void StartupApp()

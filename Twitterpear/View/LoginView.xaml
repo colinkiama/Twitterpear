@@ -8,13 +8,25 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-        <StackPanel>
-            <Image Width="150"
-               Height="150"/>
-            <Button Name="LoginButton"
+
+    <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    >
+        <Image Width="300"
+               Height="300"
+                   Source="ms-appx:///Assets/LargeTile.png"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+        <Button Name="LoginButton"
                     Click="LoginButton_Click"
-                    Content="Login"/>
-        </StackPanel>
-    </Grid>
+                    Content="Login"
+                    Style="{ThemeResource AccentButtonStyle}"
+                        Width="150"
+                        Height="40"
+                    Margin="0,40,0,0"
+                    HorizontalAlignment="Center"/>
+        <Image Width="40" Height="40"
+                   Source="ms-appx:///Assets/TwitterLogo.png"
+                   Margin="0,20,0,0"/>
+    </StackPanel>
 </Page>
