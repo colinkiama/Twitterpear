@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.UI.Animations;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -22,6 +24,11 @@ namespace Twitterpear.View
     /// </summary>
     public sealed partial class MainView : Page
     {
+        // Seconds to milliseconds conversion (seconds * 1000)
+        const float FadeAnimationTime = 5f * 1000;
+        const float ShowAnimationTime = 300f;
+        public static List<AnimationSet> animations = new List<AnimationSet>();
+
         public MainView()
         {
             this.InitializeComponent();
@@ -33,10 +40,56 @@ namespace Twitterpear.View
             await ViewModel.LoadUser();
         }
 
-        private void TweetTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private async void TweetTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             var textBox = sender as TextBox;
             TweetButton.IsEnabled = !string.IsNullOrEmpty(textBox.Text);
+
+            await StartAnimatingTextBox(sender as TextBox);
+        }
+
+        private async Task StartAnimatingTextBox(TextBox textBox)
+        {
+            int count = animations.Count;
+            if (count > 0)
+            {
+                List<AnimationSet> animationsToRemove = new List<AnimationSet>();
+                for (int i = 0; i < count; i++)
+                {
+                    animations[i].Completed -= Fade_Completed;
+                    animations[i].Stop();
+                    animationsToRemove.Add(animations[i]);
+                }
+                int deleteCount = animationsToRemove.Count;
+                for (int i = 0; i < count; i++)
+                {
+                    animations.Remove(animationsToRemove[i]);
+                }
+                animationsToRemove.Clear();
+            }
+
+
+            var changedTextBox = (TextBox)textBox;
+
+            if (changedTextBox.Text != string.Empty)
+            {
+
+                double duration = FadeAnimationTime;
+                await TweetTextBox.Fade(1, 0).StartAsync();
+                var fade = TweetTextBox.Fade(0, duration / 2, duration / 2);
+                fade.Completed += Fade_Completed;
+                animations.Add(fade);
+                await fade.StartAsync();
+            }
+
+        }
+
+
+        private async void Fade_Completed(object sender, AnimationSetCompletedEventArgs e)
+        {
+            TweetTextBox.Text = "";
+            await TweetTextBox.Fade(1,ShowAnimationTime).StartAsync();
         }
     }
 }
+
