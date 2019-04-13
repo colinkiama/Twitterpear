@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Twitterpear.Core;
+using Twitterpear.Helpers;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
@@ -30,11 +32,10 @@ namespace Twitterpear.View
             this.InitializeComponent();
            
         }
+        
 
-
-        private async void LoginButton_Click(object sender, RoutedEventArgs e)
+        private async Task TryLogin()
         {
-            TwitterService.Instance.Initialize(APIKeys.APIKey, APIKeys.SecretKey, "twitterpear://");
             // Login to Twitter
             if (!await TwitterService.Instance.LoginAsync())
             {
@@ -42,8 +43,14 @@ namespace Twitterpear.View
             }
             else
             {
+                SettingsHelper.SetUserAsLoggedIn();
                 Frame.Navigate(typeof(MainView));
             }
+        }
+
+        private async void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            await TryLogin();
         }
     }
 }

@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Services.Twitter;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Twitterpear.Core;
+using Twitterpear.Helpers;
 using Twitterpear.View;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -41,6 +44,7 @@ namespace Twitterpear
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            StartupApp();
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
@@ -67,19 +71,24 @@ namespace Twitterpear
                 // configuring the new page by passing required information as a navigation
                 // parameter
 
-
-                //rootFrame.Navigate(typeof(MainView));
-
-
-
-                rootFrame.Navigate(typeof(LoginView), e.Arguments);
+                if (SettingsHelper.CheckIfUserHasLoggedIn())
+                {
+                    rootFrame.Navigate(typeof(MainView));
+                }
+                else
+                {
+                    rootFrame.Navigate(typeof(LoginView), e.Arguments);
+                }
 
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
         }
 
-
+        private void StartupApp()
+        {
+            TwitterService.Instance.Initialize(APIKeys.APIKey, APIKeys.SecretKey, "twitterpear://");
+        }
 
         protected override void OnActivated(IActivatedEventArgs args)
         {
