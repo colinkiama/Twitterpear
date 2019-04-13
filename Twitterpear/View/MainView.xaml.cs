@@ -71,11 +71,12 @@ namespace Twitterpear.View
 
             var changedTextBox = (TextBox)textBox;
 
-            if (changedTextBox.Text != string.Empty)
+            await changedTextBox.Fade(1, 0).StartAsync();
+
+            if (TweetButton.IsEnabled)
             {
 
                 double duration = FadeAnimationTime;
-                await TweetTextBox.Fade(1, 0).StartAsync();
                 var fade = TweetTextBox.Fade(0, duration / 2, duration / 2);
                 fade.Completed += Fade_Completed;
                 animations.Add(fade);
