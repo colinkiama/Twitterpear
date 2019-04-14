@@ -54,7 +54,26 @@ namespace Twitterpear.ViewModel
 
         internal async Task LoadUser()
         {
-            User = await TwitterService.Instance.GetUserAsync();
+            try
+            {
+                User = await TwitterService.Instance.GetUserAsync();
+            }
+            catch
+            {
+                await ShowNetworkError();
+                GoToLoginView();
+            }
+        }
+
+        private async Task ShowNetworkError()
+        {
+            var tweetErrorDialog = new ContentDialog
+            {
+                Title = "Network Error",
+                Content = "Can't send the tweet without internet access",
+                CloseButtonText = "Ok"
+            };
+            await tweetErrorDialog.ShowAsync();
         }
 
         private bool _tweetPublishAttempted;
@@ -86,7 +105,12 @@ namespace Twitterpear.ViewModel
             TwitterService.Instance.Logout();
             SettingsHelper.SetUserAsLoggedOut();
 
+            GoToLoginView();
+           
+        }
 
+        private void GoToLoginView()
+        {
             var currentFrame = Window.Current.Content as Frame;
             if (currentFrame != null)
             {
@@ -97,12 +121,20 @@ namespace Twitterpear.ViewModel
 
         private async Task CreateTweetAsync()
         {
-            bool wasTweetPublished = await TwitterService.Instance.TweetStatusAsync(_tweetContent);
-            if (wasTweetPublished)
+            try
             {
-                TweetPublishAttempted = true;
-                PublishedTweetURL = $"{TwitterUrlString}{User.ScreenName}";
+                bool wasTweetPublished = await TwitterService.Instance.TweetStatusAsync(_tweetContent);
+                if (wasTweetPublished)
+                {
+                    TweetPublishAttempted = true;
+                    PublishedTweetURL = $"{TwitterUrlString}{User.ScreenName}";
+                }
             }
+            catch
+            {
+                await ShowNetworkError();
+            }
+            
 
         }
     }

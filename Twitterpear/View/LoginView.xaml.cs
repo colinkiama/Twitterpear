@@ -36,16 +36,36 @@ namespace Twitterpear.View
 
         private async Task TryLogin()
         {
-            // Login to Twitter
-            if (!await TwitterService.Instance.LoginAsync())
+            try
             {
-                return;
+                // Login to Twitter
+                if (!await TwitterService.Instance.LoginAsync())
+                {
+                    return;
+                }
+                else
+                {
+                    SettingsHelper.SetUserAsLoggedIn();
+                    Frame.Navigate(typeof(MainView));
+                    Frame.BackStack.Clear();
+                }
             }
-            else
+            catch
             {
-                SettingsHelper.SetUserAsLoggedIn();
-                Frame.Navigate(typeof(MainView));
+                await ShowNetworkError();
             }
+            
+        }
+
+        private async Task ShowNetworkError()
+        {
+            var tweetErrorDialog = new ContentDialog
+            {
+                Title = "Network Error",
+                Content = "Can't login without internet access",
+                CloseButtonText = "Ok"
+            };
+            await tweetErrorDialog.ShowAsync();
         }
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
