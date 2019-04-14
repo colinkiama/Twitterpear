@@ -98,6 +98,18 @@ namespace Twitterpear.View
             var profilePic = sender as Ellipse;
             FlyoutBase.ShowAttachedFlyout(profilePic);
         }
+
+        private void ProfilePictureImage_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            var profilePic = sender as Ellipse;
+            profilePic.StrokeThickness = 4;
+        }
+
+        private void ProfilePictureImage_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            var profilePic = sender as Ellipse;
+            profilePic.StrokeThickness = 0;
+        }
     }
 }
 
