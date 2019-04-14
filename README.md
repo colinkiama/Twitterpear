@@ -1,5 +1,6 @@
 # Twitterpear
 UWP App that helps you send tweets without overthinking.
+![Demo of Twitterpear showing off app text fading after a few seconds of no activity](img/TwitterpearDemo.gif)
 
 ## How?
 If you take too much time thinking before typing characters, your draft starts to fade. If you take too long, your whole draft fades away completely and you have to start over.
