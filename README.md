@@ -7,7 +7,7 @@ If you take too much time thinking before typing characters, your draft starts t
 ## How does this app benefit other developers
 - Examples of using MVVM
 - API usage (via the Windows Community Toolkit)
-- An example of ephermal features in a UWP app
+- An example of using ephemeral features in a UWP app
 
 ## Where are the API Keys.
 I've purposely not included them. Get your own from Twitter: https://developer.twitter.com/en/apps
