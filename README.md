@@ -1,5 +1,6 @@
 # Twitterpear
 UWP App that helps you send tweets without overthinking.
+
 ![Demo of Twitterpear showing off app text fading after a few seconds of no activity](img/TwitterpearDemo.gif)
 
 ## How?
@@ -10,5 +11,5 @@ If you take too much time thinking before typing characters, your draft starts t
 - API usage (via the Windows Community Toolkit)
 - An example of using ephemeral features in a UWP app
 
-## Where are the API Keys.
+## Where are the API Keys?
 I've purposely not included them. Get your own from Twitter: https://developer.twitter.com/en/apps
