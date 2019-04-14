@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:Twitterpear.ViewModel"
+    xmlns:converters="using:Twitterpear.Converters"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.DataContext>
@@ -13,8 +14,16 @@
     </Page.DataContext>
 
     <Page.Resources>
-        <ResourceDictionary Source="ms-appx:///Styles/ControlStyles.xaml"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Styles/ControlStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <converters:ScreenNameConverter x:Key="ScreenNameConverter"/>
+        </ResourceDictionary>
+        
     </Page.Resources>
+    
+    
     
     
     <Grid Padding="40">
@@ -38,10 +47,10 @@
                 </Ellipse.Fill>
                 <FlyoutBase.AttachedFlyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Text="{x:Bind ViewModel.User.Name, Mode=OneWay}"
+                        <MenuFlyoutItem Text="{x:Bind ViewModel.User.ScreenName, Mode=OneWay,
+                            Converter={StaticResource ScreenNameConverter}}"
                                         FontWeight="SemiBold"
                                         Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
-                                        
                                         IsHitTestVisible="False"></MenuFlyoutItem>
                         <MenuFlyoutItem Name="LogoutButton"
                                         Command="{x:Bind ViewModel.LogoutCommand}">Log Out</MenuFlyoutItem>
