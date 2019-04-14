@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="6845ab09-52d4-455d-bfc0-06825ddf5aa6" Publisher="CN=colin" Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="6845ab09-52d4-455d-bfc0-06825ddf5aa6" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="64942ColinKiama.Twitterpear" Publisher="CN=D2DBA6D7-296F-484A-BABE-2B76C9C2AF78" Version="1.0.0.0" />
+  <mp:PhoneIdentity PhoneProductId="44932dc8-1bf1-40e7-b4ef-51c8afc49e07" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Twitterpear</DisplayName>
-    <PublisherDisplayName>colin</PublisherDisplayName>
+    <PublisherDisplayName>Colin Kiama</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
