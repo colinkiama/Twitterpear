@@ -128,6 +128,7 @@ namespace Twitterpear.ViewModel
                 {
                     TweetPublishAttempted = true;
                     PublishedTweetURL = $"{TwitterUrlString}{User.ScreenName}";
+                    ClearTweetContent();
                 }
             }
             catch
@@ -136,6 +137,11 @@ namespace Twitterpear.ViewModel
             }
             
 
+        }
+
+        private void ClearTweetContent()
+        {
+            TweetContent = "";
         }
     }
 }
