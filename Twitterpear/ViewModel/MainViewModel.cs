@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Twitterpear.Base;
 using Twitterpear.Commands;
+using Twitterpear.View;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace Twitterpear.ViewModel
 {
@@ -69,13 +72,28 @@ namespace Twitterpear.ViewModel
 
 
         public RelayCommand TweetCommand;
+        public RelayCommand LogoutCommand;
 
         public MainViewModel()
         {
             TweetCommand = new RelayCommand(async () => await CreateTweetAsync().AsAsyncAction());
+            LogoutCommand = new RelayCommand(() => Logout());
         }
 
-        
+        private void Logout()
+        {
+            TwitterService.Instance.Logout();
+
+            // Changing the frame's content so that nothing is
+            // added to the backstack.
+
+            var currentFrame = Window.Current.Content as Frame;
+            if (currentFrame != null)
+            {
+                currentFrame.BackStack.Clear();
+                currentFrame.Content = new LoginView();
+            }
+        }
 
         private async Task CreateTweetAsync()
         {
@@ -85,7 +103,7 @@ namespace Twitterpear.ViewModel
                 TweetPublishAttempted = true;
                 PublishedTweetURL = $"{TwitterUrlString}{User.ScreenName}";
             }
-           
+
         }
     }
 }
