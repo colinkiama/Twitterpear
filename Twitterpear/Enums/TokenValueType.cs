@@ -10,6 +10,8 @@ namespace Twitterpear.Enums
     {
         AuthorizationKey,
         AuthorizationSecret,
-        ConsumerCredentials
+        AccessToken,
+        AccessTokenSecret,
+        VerifierCode
     }
 }

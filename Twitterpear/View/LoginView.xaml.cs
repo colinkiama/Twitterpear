@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Services.Twitter;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Twitterpear.Core;
 using Twitterpear.Helpers;
 using Windows.Foundation;
@@ -28,17 +30,47 @@ namespace Twitterpear.View
         public LoginView()
         {
             this.InitializeComponent();
-            AuthHelper.UserLoggedIn += AuthHelper_UserLoggedIn;
+           
+        }
+        
+
+        private async Task TryLogin()
+        {
+            try
+            {
+                // Login to Twitter
+                if (!await TwitterService.Instance.LoginAsync())
+                {
+                    return;
+                }
+                else
+                {
+                    SettingsHelper.SetUserAsLoggedIn();
+                    Frame.Navigate(typeof(MainView));
+                    Frame.BackStack.Clear();
+                }
+            }
+            catch
+            {
+                await ShowNetworkError();
+            }
+            
         }
 
-        private void AuthHelper_UserLoggedIn(object sender, Tweetinvi.Models.IAuthenticatedUser e)
+        private async Task ShowNetworkError()
         {
-            Frame.Navigate(typeof(MainView), e);
+            var tweetErrorDialog = new ContentDialog
+            {
+                Title = "Network Error",
+                Content = "Can't login without internet access",
+                CloseButtonText = "Ok"
+            };
+            await tweetErrorDialog.ShowAsync();
         }
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            await AuthHelper.TwitterAuth();
+            await TryLogin();
         }
     }
 }

@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Services.Twitter;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Twitterpear.Core;
 using Twitterpear.Helpers;
 using Twitterpear.View;
 using Windows.ApplicationModel;
@@ -42,8 +44,13 @@ namespace Twitterpear
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            StartupApp();
             Frame rootFrame = Window.Current.Content as Frame;
 
+            if (e.PrelaunchActivated == false)
+            {
+                TryEnablePrelaunch();
+            }
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (rootFrame == null)
@@ -62,18 +69,34 @@ namespace Twitterpear
                 Window.Current.Content = rootFrame;
             }
 
-            if (e.PrelaunchActivated == false)
+            if (rootFrame.Content == null)
             {
-                if (rootFrame.Content == null)
+                // When the navigation stack isn't restored navigate to the first page,
+                // configuring the new page by passing required information as a navigation
+                // parameter
+
+                if (SettingsHelper.CheckIfUserHasLoggedIn())
                 {
-                    // When the navigation stack isn't restored navigate to the first page,
-                    // configuring the new page by passing required information as a navigation
-                    // parameter
+                    rootFrame.Navigate(typeof(MainView));
+                }
+                else
+                {
                     rootFrame.Navigate(typeof(LoginView), e.Arguments);
                 }
+
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
+        }
+
+        private void TryEnablePrelaunch()
+        {
+            Windows.ApplicationModel.Core.CoreApplication.EnablePrelaunch(true);
+        }
+
+        private void StartupApp()
+        {
+            TwitterService.Instance.Initialize(APIKeys.APIKey, APIKeys.SecretKey, "twitterpear://");
         }
 
         protected override void OnActivated(IActivatedEventArgs args)
@@ -85,7 +108,6 @@ namespace Twitterpear
                 // TODO: Handle URI activation
                 // The received URI is eventArgs.Uri.AbsoluteUri
                 Debug.WriteLine(eventArgs.Uri.AbsoluteUri);
-                AuthHelper.ValidateTwitterAuth(eventArgs.Uri);
             }
         }
 

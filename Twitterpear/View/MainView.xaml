@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:Twitterpear.ViewModel"
+    xmlns:converters="using:Twitterpear.Converters"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.DataContext>
@@ -13,8 +14,16 @@
     </Page.DataContext>
 
     <Page.Resources>
-        <ResourceDictionary Source="ms-appx:///Styles/ControlStyles.xaml"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Styles/ControlStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <converters:ScreenNameConverter x:Key="ScreenNameConverter"/>
+        </ResourceDictionary>
+        
     </Page.Resources>
+    
+    
     
     
     <Grid Padding="40">
@@ -31,14 +40,32 @@
             <TextBlock Style="{StaticResource ViewTitleStyle}" Text="New Tweet"/>
             <Ellipse Name="ProfilePictureImage"  Width="40"
                      Height="40"
-                     Grid.Column="1">
+                     Grid.Column="1"
+                     Tapped="ProfilePictureImage_Tapped"
+                     PointerEntered="ProfilePictureImage_PointerEntered"
+                     PointerExited ="ProfilePictureImage_PointerExited"
+                     Stroke="{ThemeResource SystemControlForegroundAccentBrush}"
+                     StrokeThickness="0">
                 <Ellipse.Fill>
-                    <ImageBrush ImageSource="{x:Bind ViewModel.User.ProfileImageUrl400x400, Mode=OneWay}"/>
+                    <ImageBrush ImageSource="{x:Bind ViewModel.User.ProfileImageUrl, Mode=OneWay}"/>
                 </Ellipse.Fill>
+                <FlyoutBase.AttachedFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="{x:Bind ViewModel.User.ScreenName, Mode=OneWay,
+                            Converter={StaticResource ScreenNameConverter}}"
+                                        FontWeight="SemiBold"
+                                        Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
+                                        IsHitTestVisible="False"></MenuFlyoutItem>
+                        <MenuFlyoutItem Name="LogoutButton"
+                                        Command="{x:Bind ViewModel.LogoutCommand}">Log Out</MenuFlyoutItem>
+                        
+                    </MenuFlyout>
+                </FlyoutBase.AttachedFlyout>
             </Ellipse>
         </Grid>
 
-        <ScrollViewer Grid.Row="1">
+        <ScrollViewer Grid.Row="1"
+                      Margin="0,0,-40,0">
             <StackPanel
                 HorizontalAlignment="Left">
                 <TextBox Name="TweetTextBox" Width="300"
@@ -60,11 +87,13 @@
                     </Button.Content>
                 </Button>
                 <StackPanel Name="TweetStatusStackPanel"
-                            Margin="0,20,0,0">
+                            Margin="0,20,0,0"
+                            Visibility="{x:Bind ViewModel.TweetPublishAttempted, Mode=OneWay}">
                     <TextBlock Name="StatusTextBlock" Style="{StaticResource StatusHeaderStyle}"
                                Text="Your tweet is now on Twitter!"/>
-                    <TextBlock Name="StatusDetailsTextBlock"
-                               Text="Link to tweet: (Tweet Link)"/>
+                    <HyperlinkButton Name="StatusDetailsTextBlock"
+                               Content="{x:Bind ViewModel.PublishedTweetURL, Mode=OneWay}"
+                                     NavigateUri="{Binding ElementName=StatusDetailsTextBlock, Path=Content}"/>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
