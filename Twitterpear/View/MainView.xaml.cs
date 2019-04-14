@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Shapes;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -90,6 +91,12 @@ namespace Twitterpear.View
         {
             TweetTextBox.Text = "";
             await TweetTextBox.Fade(1,ShowAnimationTime).StartAsync();
+        }
+
+        private void ProfilePictureImage_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            var profilePic = sender as Ellipse;
+            FlyoutBase.ShowAttachedFlyout(profilePic);
         }
     }
 }

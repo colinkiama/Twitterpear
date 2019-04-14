@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Twitterpear.Base;
 using Twitterpear.Commands;
+using Twitterpear.Helpers;
 using Twitterpear.View;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -83,15 +84,14 @@ namespace Twitterpear.ViewModel
         private void Logout()
         {
             TwitterService.Instance.Logout();
+            SettingsHelper.SetUserAsLoggedOut();
 
-            // Changing the frame's content so that nothing is
-            // added to the backstack.
 
             var currentFrame = Window.Current.Content as Frame;
             if (currentFrame != null)
             {
+                currentFrame.Navigate(typeof(LoginView));
                 currentFrame.BackStack.Clear();
-                currentFrame.Content = new LoginView();
             }
         }
 

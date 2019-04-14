@@ -31,10 +31,23 @@
             <TextBlock Style="{StaticResource ViewTitleStyle}" Text="New Tweet"/>
             <Ellipse Name="ProfilePictureImage"  Width="40"
                      Height="40"
-                     Grid.Column="1">
+                     Grid.Column="1"
+                     Tapped="ProfilePictureImage_Tapped">
                 <Ellipse.Fill>
                     <ImageBrush ImageSource="{x:Bind ViewModel.User.ProfileImageUrl, Mode=OneWay}"/>
                 </Ellipse.Fill>
+                <FlyoutBase.AttachedFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="{x:Bind ViewModel.User.Name, Mode=OneWay}"
+                                        FontWeight="SemiBold"
+                                        Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
+                                        
+                                        IsHitTestVisible="False"></MenuFlyoutItem>
+                        <MenuFlyoutItem Name="LogoutButton"
+                                        Command="{x:Bind ViewModel.LogoutCommand}">Log Out</MenuFlyoutItem>
+                        
+                    </MenuFlyout>
+                </FlyoutBase.AttachedFlyout>
             </Ellipse>
         </Grid>
 
